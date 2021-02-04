@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-///  create by zmtzawqlp on 2019/5/27
-///
-
 class BubblesColor {
   const BubblesColor({
     @required this.dotPrimaryColor,
@@ -11,22 +7,26 @@ class BubblesColor {
     this.dotThirdColor,
     this.dotLastColor,
   });
+
   final Color dotPrimaryColor;
   final Color dotSecondaryColor;
   final Color dotThirdColor;
   final Color dotLastColor;
+
   Color get dotThirdColorReal => dotThirdColor ?? dotPrimaryColor;
 
   Color get dotLastColorReal => dotLastColor ?? dotSecondaryColor;
 }
 
 class CircleColor {
+  final Color start;
+  final Color end;
+
   const CircleColor({
     @required this.start,
     @required this.end,
   });
-  final Color start;
-  final Color end;
+
   @override
   bool operator ==(dynamic other) {
     if (other.runtimeType != runtimeType) {
@@ -40,9 +40,9 @@ class CircleColor {
 }
 
 class OvershootCurve extends Curve {
-  const OvershootCurve([this.period = 2.5]);
+  final period = 2.5;
 
-  final double period;
+  const OvershootCurve();
 
   @override
   double transform(double t) {
@@ -54,17 +54,5 @@ class OvershootCurve extends Curve {
   @override
   String toString() {
     return '$runtimeType($period)';
-  }
-}
-
-class LikeCountClip extends CustomClipper<Rect> {
-  @override
-  Rect getClip(Size size) {
-    return Offset.zero & size;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Rect> oldClipper) {
-    return true;
   }
 }
