@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 class CirclePainter extends CustomPainter {
   CirclePainter({
-    @required this.outerCircleRadiusProgress,
-    @required this.innerCircleRadiusProgress,
-    @required this.circleColor,
+    required this.outerCircleRadiusProgress,
+    required this.innerCircleRadiusProgress,
+    required this.circleColor,
   });
 
   final Paint _circlePaint = Paint()..style = PaintingStyle.stroke;
@@ -17,9 +17,9 @@ class CirclePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = size.width * 0.5;
+    final double center = size.width * 0.5;
     _updateCircleColor();
-    final strokeWidth = outerCircleRadiusProgress * center - (innerCircleRadiusProgress * center);
+    final double strokeWidth = outerCircleRadiusProgress * center - (innerCircleRadiusProgress * center);
     if (strokeWidth > 0.0) {
       _circlePaint.strokeWidth = strokeWidth;
       canvas.drawCircle(Offset(center, center), outerCircleRadiusProgress * center, _circlePaint);
@@ -27,9 +27,9 @@ class CirclePainter extends CustomPainter {
   }
 
   void _updateCircleColor() {
-    var colorProgress = clamp(outerCircleRadiusProgress, 0.5, 1.0);
+    double colorProgress = clamp(outerCircleRadiusProgress, 0.5, 1.0);
     colorProgress = mapValueFromRangeToRange(colorProgress, 0.5, 1.0, 0.0, 1.0);
-    _circlePaint.color = Color.lerp(circleColor.start, circleColor.end, colorProgress);
+    _circlePaint.color = Color.lerp(circleColor.start, circleColor.end, colorProgress)!;
   }
 
   @override

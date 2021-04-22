@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class BubblesColor {
   const BubblesColor({
-    @required this.dotPrimaryColor,
-    @required this.dotSecondaryColor,
+    required this.dotPrimaryColor,
+    required this.dotSecondaryColor,
     this.dotThirdColor,
     this.dotLastColor,
   });
 
   final Color dotPrimaryColor;
   final Color dotSecondaryColor;
-  final Color dotThirdColor;
-  final Color dotLastColor;
+  final Color? dotThirdColor;
+  final Color? dotLastColor;
 
   Color get dotThirdColorReal => dotThirdColor ?? dotPrimaryColor;
 
@@ -19,13 +19,13 @@ class BubblesColor {
 }
 
 class CircleColor {
+  const CircleColor({
+    required this.start,
+    required this.end,
+  });
+
   final Color start;
   final Color end;
-
-  const CircleColor({
-    @required this.start,
-    @required this.end,
-  });
 
   @override
   bool operator ==(dynamic other) {
@@ -40,19 +40,19 @@ class CircleColor {
 }
 
 class OvershootCurve extends Curve {
-  final period = 2.5;
-
   const OvershootCurve();
+
+  final double _period = 2.5;
 
   @override
   double transform(double t) {
     assert(t >= 0.0 && t <= 1.0);
     t -= 1.0;
-    return t * t * ((period + 1) * t + period) + 1.0;
+    return t * t * ((_period + 1) * t + _period) + 1.0;
   }
 
   @override
   String toString() {
-    return '$runtimeType($period)';
+    return '$runtimeType($_period)';
   }
 }

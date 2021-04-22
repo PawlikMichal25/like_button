@@ -7,15 +7,14 @@ import 'package:flutter/material.dart';
 
 class LikeButton extends StatefulWidget {
   const LikeButton({
-    Key key,
-    @required this.likeBuilder,
-    @required this.isLiked,
-    @required this.bubblesColor,
-    @required this.circleColor,
-    @required this.onTap,
+    Key? key,
+    required this.likeBuilder,
+    required this.isLiked,
+    required this.bubblesColor,
+    required this.circleColor,
+    required this.onTap,
     this.size = 30.0,
-  })  : assert(size != null),
-        super(key: key);
+  }) : super(key: key);
 
   ///size of like widget
   final double size;
@@ -40,16 +39,16 @@ class LikeButton extends StatefulWidget {
 }
 
 class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
-  static const _animationDuration = Duration(milliseconds: 1000);
+  static const Duration _animationDuration = Duration(milliseconds: 1000);
 
-  double _bubblesSize;
-  double _circleSize;
+  late double _bubblesSize;
+  late double _circleSize;
 
-  AnimationController _controller;
-  Animation<double> _outerCircleAnimation;
-  Animation<double> _innerCircleAnimation;
-  Animation<double> _scaleAnimation;
-  Animation<double> _bubblesAnimation;
+  late AnimationController _controller;
+  late Animation<double> _outerCircleAnimation;
+  late Animation<double> _innerCircleAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _bubblesAnimation;
 
   bool _isLiked = false;
 
@@ -62,7 +61,6 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
     _circleSize = widget.size * 0.8;
 
     _controller = AnimationController(duration: _animationDuration, vsync: this);
-
     _initControlAnimation();
   }
 
@@ -70,8 +68,8 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
   void didUpdateWidget(LikeButton oldWidget) {
     _isLiked = widget.isLiked;
 
-    if (_controller?.duration != _animationDuration) {
-      _controller?.dispose();
+    if (_controller.duration != _animationDuration) {
+      _controller.dispose();
       _controller = AnimationController(duration: _animationDuration, vsync: this);
       _initControlAnimation();
     }
@@ -87,13 +85,13 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final result = AnimatedBuilder(
+    final AnimatedBuilder result = AnimatedBuilder(
       animation: _controller,
       builder: (_, __) {
-        final likeWidget = widget.likeBuilder.call(_isLiked ?? true);
+        final Widget likeWidget = widget.likeBuilder(_isLiked);
         return Stack(
-          overflow: Overflow.visible,
-          children: [
+          clipBehavior: Clip.none,
+          children: <Widget>[
             Positioned(
               top: (widget.size - _bubblesSize) / 2.0,
               left: (widget.size - _bubblesSize) / 2.0,
@@ -125,7 +123,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
               height: widget.size,
               alignment: Alignment.center,
               child: Transform.scale(
-                scale: ((_isLiked ?? true) && _controller.isAnimating) ? _scaleAnimation.value : 1.0,
+                scale: (_isLiked && _controller.isAnimating) ? _scaleAnimation.value : 1.0,
                 child: SizedBox(
                   height: widget.size,
                   width: widget.size,
@@ -151,7 +149,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
     // if (_controller.isAnimating) {
     //   return;
     // }
-    final newIsLiked = !(_isLiked ?? true);
+    final bool newIsLiked = !_isLiked;
     widget.onTap(newIsLiked);
     _handleIsLikeChanged(newIsLiked);
   }
