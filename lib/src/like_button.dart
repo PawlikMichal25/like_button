@@ -16,7 +16,8 @@ class LikeButton extends StatefulWidget {
     this.size = 30.0,
     double? bubblesSize,
     double? circleSize,
-  })  : bubblesSize = bubblesSize ?? size * 2.0,
+  })
+      : bubblesSize = bubblesSize ?? size * 2.0,
         circleSize = circleSize ?? size * 0.8,
         super(key: key);
 
@@ -122,14 +123,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
               width: widget.size,
               height: widget.size,
               alignment: Alignment.center,
-              child: Transform.scale(
-                scale: (_isLiked && _controller.isAnimating) ? _scaleAnimation.value : 1.0,
-                child: SizedBox(
-                  height: widget.size,
-                  width: widget.size,
-                  child: likeWidget,
-                ),
-              ),
+              child: likeWidget,
             ),
           ],
         );
