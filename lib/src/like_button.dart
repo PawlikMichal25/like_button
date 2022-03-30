@@ -14,10 +14,16 @@ class LikeButton extends StatefulWidget {
     required this.circleColor,
     required this.onTap,
     this.size = 30.0,
-  }) : super(key: key);
+    double? bubblesSize,
+    double? circleSize,
+  })  : bubblesSize = bubblesSize ?? size * 2.0,
+        circleSize = circleSize ?? size * 0.8,
+        super(key: key);
 
   ///size of like widget
   final double size;
+  final double bubblesSize;
+  final double circleSize;
 
   ///colors of bubbles
   final BubblesColor bubblesColor;
@@ -41,9 +47,6 @@ class LikeButton extends StatefulWidget {
 class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
   static const Duration _animationDuration = Duration(milliseconds: 1000);
 
-  late double _bubblesSize;
-  late double _circleSize;
-
   late AnimationController _controller;
   late Animation<double> _outerCircleAnimation;
   late Animation<double> _innerCircleAnimation;
@@ -56,9 +59,6 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _isLiked = widget.isLiked;
-
-    _bubblesSize = widget.size * 2.0;
-    _circleSize = widget.size * 0.8;
 
     _controller = AnimationController(duration: _animationDuration, vsync: this);
     _initControlAnimation();
@@ -93,10 +93,10 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
           clipBehavior: Clip.none,
           children: <Widget>[
             Positioned(
-              top: (widget.size - _bubblesSize) / 2.0,
-              left: (widget.size - _bubblesSize) / 2.0,
+              top: (widget.size - widget.bubblesSize) / 2.0,
+              left: (widget.size - widget.bubblesSize) / 2.0,
               child: CustomPaint(
-                size: Size(_bubblesSize, _bubblesSize),
+                size: Size(widget.bubblesSize, widget.bubblesSize),
                 painter: BubblesPainter(
                   currentProgress: _bubblesAnimation.value,
                   color1: widget.bubblesColor.dotPrimaryColor,
@@ -107,10 +107,10 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
               ),
             ),
             Positioned(
-              top: (widget.size - _circleSize) / 2.0,
-              left: (widget.size - _circleSize) / 2.0,
+              top: (widget.size - widget.circleSize) / 2.0,
+              left: (widget.size - widget.circleSize) / 2.0,
               child: CustomPaint(
-                size: Size(_circleSize, _circleSize),
+                size: Size(widget.circleSize, widget.circleSize),
                 painter: CirclePainter(
                   innerCircleRadiusProgress: _innerCircleAnimation.value,
                   outerCircleRadiusProgress: _outerCircleAnimation.value,
