@@ -28,21 +28,18 @@ class CircleColor {
   final Color end;
 
   @override
-  bool operator ==(dynamic other) {
-    if (other.runtimeType != runtimeType) {
-      return false;
-    }
-    return other is CircleColor && start == other.start && end == other.end;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CircleColor && runtimeType == other.runtimeType && start == other.start && end == other.end;
 
   @override
-  int get hashCode => hashValues(start, end);
+  int get hashCode => start.hashCode ^ end.hashCode;
 }
 
 class OvershootCurve extends Curve {
   const OvershootCurve();
 
-  final double _period = 2.5;
+  static const double _period = 2.5;
 
   @override
   double transform(double t) {
